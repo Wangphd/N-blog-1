@@ -7,13 +7,14 @@
 </p>
 <p class="info">
   作者：<a href="/u/<%= post.name %>"><%= post.name %></a> |
-  日期：<%= post.time.minute %> | 
+  日期：<%= post.time.minute %> |
   标签：
   <% post.tags.forEach(function (tag, index) { %>
     <% if (tag) { %>
       <a class="tag" href="/tags/<%= tag %>"><%= tag %></a>
     <% } %>
   <% }) %>
+  <a href="/archive/<%= post.name %>"><%= post.name %>的所有文章</a>
 </p>
 <p><%- post.post %></p>
 <%- include comment %>
