@@ -23,6 +23,11 @@
   <span><a title="注册" href="/reg">注册</a></span>
 <% } %>
 </nav>
+<span>
+  <form action="/search" method="GET">
+    <input type="text" name="keyword" placeholder="全站搜索" class="search" />
+  </form>
+</span>
 
 <article>
   <% if (success) { %>

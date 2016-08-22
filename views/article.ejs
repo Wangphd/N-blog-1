@@ -1,8 +1,26 @@
 <%- include header %>
 <p>
   <% if (user && (user.name == post.name)) { %>
-  <span><a class="edit" href="/edit/<%= post.name %>/<%= post.time.day %>/<%= post.title %>">编辑</a></span>
-  <span><a class="edit" href="/remove/<%= post.name %>/<%= post.time.day %>/<%= post.title %>">删除</a></span>
+  <span><a class="edit" href="/edit/<%= post._id %>">编辑</a></span>
+  <span><a class="edit" href="/remove/<%= post._id %>">删除</a></span>
+<% } %>
+<% var flag = 1 %>
+<% if (user && (user.name != post.name)) { %>
+  <% if ((post.reprint_from != undefined) && (user.name == post.reprint_from.name)) { %>
+    <% flag = 0 %>
+  <% } %>
+  <% if ((post.reprint_to != undefined)) { %>
+    <% post.reprint_to.forEach(function (reprint_to, index) { %>
+      <% if (user.name == reprint_to.name) { %>
+        <% flag = 0 %>
+      <% } %>
+    <% }) %>
+  <% } %>
+<% } else { %>
+  <% flag = 0 %>
+<% } %>
+<% if (flag) { %>
+<span><a class="edit" href="/reprint/<%= post._id %>">转载</a></span>
 <% } %>
 </p>
 <p class="info">
@@ -15,7 +33,16 @@
     <% } %>
   <% }) %>
   <a href="/archive/<%= post.name %>"><%= post.name %>的所有文章</a>
+  <% if (post.reprint_from) { %>
+    <br><a href="/p/<%= post.reprint_from._id %>">原文链接</a>
+  <% } %>
 </p>
 <p><%- post.post %></p>
+<p class="info">阅读：<%= post.pv %> | 评论：<%= post.comments.length %> | 转载：
+  <% if (post.reprint_to) { %>
+    <%= post.reprint_to.length %>
+  <% } else { %>
+    <%= 0 %>
+  <% } %> | <span><a title="友情链接" href="/links">友情链接</a></span></p>
 <%- include comment %>
 <%- include footer %>
